@@ -1,6 +1,12 @@
 // import Image from "next/image";
 import "./globals.css";
 
+export const metadata = {
+  title: "Hot Springs Atlas - Find Natural Hot Springs Across the USA",
+  description:
+    "Discover natural hot springs across the United States with detailed guides, locations, and tips to plan your perfect soak in nature.",
+};
+
 export default function Home() {
   return (
     <main className="container">
@@ -23,7 +29,7 @@ export default function Home() {
         USA.
       </p>
 
-      <h2 style={{ fontSize: "1.75rem" }}>
+      <h2 style={{ fontSize: "1.65rem" }}>
         Popular Hot Springs Destinations in America
       </h2>
       <h3>Hot Springs National Park, Arkansas</h3>
@@ -50,7 +56,7 @@ export default function Home() {
         mountains.
       </p>
 
-      <h2 style={{ fontSize: "1.75rem" }}>
+      <h2 style={{ fontSize: "1.65rem" }}>
         Frequently Asked Questions About Hot Springs in America
       </h2>
       <h3>What are hot springs?</h3>

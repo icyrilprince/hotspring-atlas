@@ -1,10 +1,6 @@
 import Link from "next/link";
 import Script from "next/script";
 
-export const metadata = {
-  title: "Hot Spring Atlas",
-  description: "Key guides about hot springs across the United States.",
-};
 
 export default function RootLayout({ children }) {
   let header = (

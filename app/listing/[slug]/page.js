@@ -1,4 +1,5 @@
 import getAllListings, { getListingBySlug } from "../../../lib/listing.js";
+import { hotSpringSchema } from "../../../lib/hotSpringschema.js";
 import "../../globals.css";
 import Link from "next/link";
 
@@ -7,6 +8,29 @@ export const dynamicParams = false;
 export async function generateStaticParams() {
   const properties = getAllListings();
   return properties.map((listing) => ({ slug: listing.slug }));
+}
+
+export function ListingSchema({ params }) {
+  const { slug } = params;
+  const listing = getListingBySlug(slug);
+  const schema = hotSpringSchema(listing);
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(schema).replace(/</g, "\\u003c"),
+      }}
+    />
+  );
+}
+
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const listing = getListingBySlug(slug);
+  return {
+    title: `${listing.name} in ${listing["location.city"]} - Updated ${new Date().getFullYear()}`,
+    description: `Discover ${listing.name}, a ${listing.hotspring_type} in ${listing["location.city"]}, ${listing["location.state"]}. Featuring mineral rich waters between ${listing.Temperature}, it offers a therapeutic and relaxing soaking experience.`,
+  };
 }
 
 export default async function ListingPage({ params }) {
@@ -64,7 +88,11 @@ export default async function ListingPage({ params }) {
       </p>
       <p>
         <strong>Website:</strong>{" "}
-        <a href={listing.website} target="_blank" rel="noopener noreferrer">
+        <a
+          href={listing.website}
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+        >
           {listing.website}
         </a>
       </p>

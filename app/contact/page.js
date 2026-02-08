@@ -1,5 +1,12 @@
 import "../globals.css";
 
+export async function generateMetadata() {
+  return {
+    title: "Contact Hot Spring Atlas - Get in Touch",
+    description: `Have questions about hot springs, suggestions for the site, or want to share your experiences? Contact Hot Spring Atlas, your comprehensive guide to discovering natural hot springs across the United States. Reach out via email or follow us on social media to connect with our passionate team and fellow hot spring enthusiasts.`,
+  };
+}
+
 export default function Contact() {
   return (
     <div className="container">

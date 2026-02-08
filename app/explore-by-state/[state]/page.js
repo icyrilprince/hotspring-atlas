@@ -1,6 +1,7 @@
 import getAllListings, { getListingsByState } from "@/lib/listing";
 import "../../globals.css";
 import Link from "next/link";
+import { PlaceSchema } from "@/lib/hotSpringschema.js";
 
 export const dynamicParams = false;
 
@@ -13,16 +14,42 @@ export async function generateStaticParams() {
   });
 }
 
+// Function to convert to title case (capitalize first letter of each word)
+const toTitleCase = (str) => {
+  return str.toLowerCase().replace(/\b\w/g, (l) => l.toUpperCase());
+};
+
+export function StateSchema({ params }) {
+  const { state: encodedState } = params;
+  const stateSlug = decodeURIComponent(encodedState);
+  const state = stateSlug.replace(/-/g, " ");
+  const listings = getListingsByState(state);
+  const schema = PlaceSchema(state, listings);
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(schema).replace(/</g, "\\u003c"),
+      }}
+    />
+  );
+}
+
+export async function generateMetadata({ params }) {
+  const { state: encodedState } = await params;
+  const stateSlug = decodeURIComponent(encodedState);
+  const state = stateSlug.replace(/-/g, " ");
+  return {
+    title: `Explore Hot Springs in ${toTitleCase(state)} - Updated ${new Date().getFullYear()}`,
+    description: `Explore all hot springs in ${toTitleCase(state)}, with detailed information such as temperature, lodging facilities, admission costs, alcohol availability and clothing requirements on each location.`,
+  };
+}
+
 export default async function ListingPage({ params }) {
   const { state: encodedState } = await params;
   const stateSlug = decodeURIComponent(encodedState);
   const state = stateSlug.replace(/-/g, " ");
   const listings = getListingsByState(state);
-
-  // Function to convert to title case (capitalize first letter of each word)
-  const toTitleCase = (str) => {
-    return str.toLowerCase().replace(/\b\w/g, (l) => l.toUpperCase());
-  };
 
   return (
     <div className="container">

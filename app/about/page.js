@@ -1,5 +1,13 @@
 import "../globals.css";
 
+export async function generateMetadata() {
+  return {
+    title:
+      "About Hot Spring Atlas - Your Ultimate Guide to Natural Hot Springs in the USA",
+    description: `Learn about the mission and passion behind Hot Spring Atlas, your comprehensive guide to discovering natural hot springs across the United States. Explore our commitment to providing accurate information, promoting responsible tourism, and connecting hot spring enthusiasts with unforgettable geothermal experiences.`,
+  };
+}
+
 export default function About() {
   return (
     <div className="container">
